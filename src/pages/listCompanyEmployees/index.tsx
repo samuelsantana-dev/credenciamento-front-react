@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Text } from '@mui/material';
+import { TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 // import SearchIcon from '@mui/icons-material/Search';
 
 interface Employee {
