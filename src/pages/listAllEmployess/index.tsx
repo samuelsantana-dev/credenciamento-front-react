@@ -6,54 +6,53 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'firstName', headerName: 'First name', width: 130 },
-  { field: 'lastName', headerName: 'Last name', width: 130 },
-  {
-      field: 'age',
-      headerName: 'Age',
-    type: 'number',
-    width: 90,
-  },
-  {
-      field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
-},
-{ 
-    field: 'actions', 
-    headerName: 'Ações', 
-    width: 150,
-    sortable: false,
-    filterable: false,
-    disableColumnMenu: true,
-    renderCell: () => (
-      <div>
-        <IconButton aria-label="view" size="small" color="info">
-         <FontAwesomeIcon icon={faEdit} />
-        </IconButton>
-        <IconButton aria-label="edit" size="small" color="primary">
-          <FontAwesomeIcon icon={faTrash} />
-        </IconButton>
-      </div>
-    )
-  }
-];
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'lastName', headerName: 'Nome da empresa', width: 200 },
+    { field: 'firstName', headerName: 'Marca da empresa', width: 250 },
+    {
+      field: 'cnpj',
+      headerName: 'CNPJ',
+      width: 150,
+    },
+    { field: 'segment', headerName: 'Setor', width: 150 },
+    {
+      field: 'fullCompanyName',
+      headerName: 'Full Company Name',
+      description: 'This column has a value getter and is not sortable.',
+      sortable: false,
+      width: 350,
+    },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 120,
+      sortable: false,
+      filterable: false,
+      disableColumnMenu: true,
+      renderCell: () => (
+        <div>
+          <IconButton aria-label="edit" size="small" color="primary">
+            <FontAwesomeIcon icon={faEdit} />
+          </IconButton>
+          <IconButton aria-label="delete" size="small" color="error">
+            <FontAwesomeIcon icon={faTrash} />
+          </IconButton>
+        </div>
+      ),
+    },
+  ];
 
 const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-];
+    { id: 1, lastName: 'Tech Solutions Inc.', firstName: 'Soluções Tecnológicas Ltda.', cnpj: '01.234.567/0001-89', segmento: 'Tecnologia' },
+    { id: 2, lastName: 'Alimentos Deliciosos S.A.', firstName: 'Indústria de Alimentos Saborosos S.A.', cnpj: '98.765.432/0002-10', segmento: 'Alimentos' },
+    { id: 3, lastName: 'Construções Master', firstName: 'Construtora Master Eireli', cnpj: '11.222.333/0003-45', segmento: 'Construção Civil' },
+    { id: 4, lastName: 'Moda Bella', firstName: 'Comércio de Vestuário Bella Ltda.', cnpj: '44.555.666/0004-78', segmento: 'Moda' },
+    { id: 5, lastName: 'Educação Inovadora', firstName: 'Instituto Educacional Inovar S/C Ltda.', cnpj: '77.888.999/0005-01', segmento: 'Educação' },
+    { id: 6, lastName: 'Saúde Bem-Estar', firstName: 'Clínica Médica Bem Estar S/S', cnpj: '22.333.444/0006-56', segmento: 'Saúde' },
+    { id: 7, lastName: 'Transportes Rápidos', firstName: 'Empresa de Logística Rápida Ltda.', cnpj: '55.666.777/0007-89', segmento: 'Transporte e Logística' },
+    { id: 8, lastName: 'Energia Sustentável', firstName: 'Geração de Energia Verde S.A.', cnpj: '88.999.000/0008-12', segmento: 'Energia' },
+    { id: 9, lastName: 'Consultoria Expert', firstName: 'Consultoria Empresarial Expert Ltda.', cnpj: '33.444.555/0009-23', segmento: 'Consultoria' },
+  ];
 
 const paginationModel = { page: 0, pageSize: 5 };
 
