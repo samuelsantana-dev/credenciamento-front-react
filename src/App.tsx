@@ -5,10 +5,12 @@ import { ListOfAllCompanies } from './pages/listOfAllCompanies';
 import { EmployeeListCompany } from './pages/listCompanyEmployees';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HomePage } from './pages/homePage';
+import NavBar from './components/navBar';
 
 function App() {
   return (
     <BrowserRouter>
+        <NavBar />
       <Routes>
         <Route path="/register-employee" element={<RegisterEmployess />} />
         <Route path="/register-company" element={<CompanyRegisterForm />} />
