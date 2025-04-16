@@ -9,10 +9,11 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom'; // Importe o Link
+import { Link } from 'react-router-dom';
 
 interface Props {
   window?: () => Window;
@@ -21,10 +22,10 @@ interface Props {
 const drawerWidth = 240;
 const navItems = [
   { name: 'Home', path: '/' },
-  { name: 'Resgistrar Empresa', path: '/register-company' },
-  { name: 'Registrar Funcionario', path: '/register-employee' },
+  { name: 'Registrar Empresa', path: '/register-company' },
+  { name: 'Registrar Funcionário', path: '/register-employee' },
   { name: 'Empresas', path: '/companies' },
-  { name: 'Empresa Unica', path: '/company/:companyId/employees' },
+  { name: 'Empresa Única', path: '/company/1/employees' }, // Exemplo com ID 1
 ];
 
 export default function NavBar(props: Props) {
@@ -62,7 +63,7 @@ export default function NavBar(props: Props) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav">
+      <AppBar component="nav" position="static">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -71,27 +72,41 @@ export default function NavBar(props: Props) {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: 'none' } }}
           >
+            <MenuIcon />
           </IconButton>
           <Typography
             variant="h6"
             component={Link}
             to="/"
             sx={{ 
-              flexGrow: 1, 
-              display: { xs: 'none', sm: 'block' },
+              flexGrow: 1,
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
               textDecoration: 'none',
-              color: 'inherit'
+              color: 'inherit',
+              display: 'flex',
+              alignItems: 'center'
             }}
           >
             Credenciamento
           </Typography>
-          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+          <Box sx={{ 
+            display: { xs: 'none', sm: 'flex' },
+            gap: 1,
+            flexWrap: 'wrap',
+            justifyContent: 'center'
+          }}>
             {navItems.map((item) => (
               <Button 
                 key={item.name} 
                 component={Link}
                 to={item.path}
-                sx={{ color: '#fff' }}
+                sx={{ 
+                  color: '#fff',
+                  whiteSpace: 'nowrap',
+                  fontSize: '0.75rem'
+                }}
               >
                 {item.name}
               </Button>
@@ -99,7 +114,7 @@ export default function NavBar(props: Props) {
           </Box>
         </Toolbar>
       </AppBar>
-      <nav>
+      <Box component="nav">
         <Drawer
           container={container}
           variant="temporary"
@@ -110,12 +125,15 @@ export default function NavBar(props: Props) {
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': { 
+              boxSizing: 'border-box', 
+              width: drawerWidth 
+            },
           }}
         >
           {drawer}
         </Drawer>
-      </nav>
+      </Box>
     </Box>
   );
 }
