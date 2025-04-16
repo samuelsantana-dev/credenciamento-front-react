@@ -59,6 +59,7 @@ const paginationModel = { page: 0, pageSize: 5 };
 export default function DataTable() {
   return (
     <Paper sx={{ height: 400, width: '100%' }}>
+        <h1>Todas as empresas</h1>
       <DataGrid
         rows={rows}
         columns={columns}
