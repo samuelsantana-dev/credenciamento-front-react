@@ -6,7 +6,8 @@ import { EmployeeListCompany } from './pages/listCompanyEmployees';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HomePage } from './pages/homePage';
 import NavBar from './components/navBar';
-import DataTable from './pages/listAllEmployess';
+import EmployessDataTable from './pages/listAllEmployess';
+import DataCompaniesTable from './pages/listOfAllCompanies';
 
 function App() {
   return (
@@ -15,8 +16,8 @@ function App() {
       <Routes>
         <Route path="/register-employee" element={<RegisterEmployess />} />
         <Route path="/register-company" element={<CompanyRegisterForm />} />
-        {/* <Route path="/companies" element={<ListOfAllCompanies />} /> */}
-        <Route path="/companies" element={<DataTable />} />
+        <Route path="/list-all-employees" element={<EmployessDataTable />} />
+        <Route path="/list-all-companies" element={<DataCompaniesTable />} />
         <Route path="/company/:companyId/employees" element={<EmployeeListCompany />} />
         <Route path="/" element={<HomePage />} />
       </Routes>

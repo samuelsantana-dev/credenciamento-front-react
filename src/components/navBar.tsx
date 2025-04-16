@@ -24,8 +24,8 @@ const navItems = [
   { name: 'Home', path: '/' },
   { name: 'Registrar Empresa', path: '/register-company' },
   { name: 'Registrar Funcionário', path: '/register-employee' },
-  { name: 'Todas as empresas', path: '/companies' },
-  { name: 'Empresa Única', path: '/company/1/employees' },
+  { name: 'Todas as empresas', path: '/list-all-companies' },
+  { name: 'Todos os funcionarios', path: '/list-all-employees' },
 ];
 
 export default function NavBar(props: Props) {
