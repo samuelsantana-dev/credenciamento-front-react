@@ -8,9 +8,9 @@ import { useNavigate } from 'react-router-dom';
 export default function DataCompaniesTable() {
   const navigate = useNavigate();
   
-  function handleNavigate(companyId: string | number){
+  function handleNavigate(companyId: string | number, nameCompany: string | number){
     console.log('teste')
-    navigate(`/company/${companyId}/employees`);
+    navigate(`/company/${companyId}/employees/${nameCompany}`);
   }
   
   const columns: GridColDef[] = [
@@ -45,7 +45,7 @@ export default function DataCompaniesTable() {
             <IconButton aria-label="delete" size="small" color="error">
               <FontAwesomeIcon icon={faTrash} />
             </IconButton>
-            <Button onClick={() => handleNavigate(1)}>
+            <Button onClick={() => handleNavigate(1, 'teste')}>
               <IconButton 
                 aria-label="view" 
                 size="small" 

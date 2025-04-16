@@ -2,7 +2,7 @@ import './App.css';
 import { RegisterEmployess } from './pages/registerEmployees';
 import { CompanyRegisterForm } from './pages/registerCompany';
 // import { ListOfAllCompanies } from './pages/listOfAllCompanies';
-import { EmployeeListCompany } from './pages/listCompanyEmployees';
+// import { EmployeeListCompany } from './pages/listCompanyEmployees';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HomePage } from './pages/homePage';
 import NavBar from './components/navBar';
@@ -18,7 +18,7 @@ function App() {
         <Route path="/register-company" element={<CompanyRegisterForm />} />
         <Route path="/list-all-employees" element={<EmployessDataTable />} />
         <Route path="/list-all-companies" element={<DataCompaniesTable />} />
-        <Route path="/company/:companyId/employees" element={<EmployeeListCompany />} />
+        {/* <Route path="/company/:companyId/employees/:nameCompany" element={<EmployeeListCompany />} /> */}
         <Route path="/" element={<HomePage />} />
       </Routes>
     </BrowserRouter>
