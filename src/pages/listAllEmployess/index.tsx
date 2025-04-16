@@ -56,10 +56,10 @@ const rows = [
 
 const paginationModel = { page: 0, pageSize: 5 };
 
-export default function DataTable() {
+export default function EmployessDataTable() {
   return (
     <Paper sx={{ height: 400, width: '100%' }}>
-        <h1>Todas as empresas</h1>
+        <h1>Todss os funcionarios</h1>
       <DataGrid
         rows={rows}
         columns={columns}

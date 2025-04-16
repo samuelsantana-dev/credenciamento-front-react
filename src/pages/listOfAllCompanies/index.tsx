@@ -1,79 +1,73 @@
-import React, { useState } from 'react';
-import { TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-// import SearchIcon from '@mui/icons-material/Search';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import Paper from '@mui/material/Paper';
+import { IconButton } from '@mui/material';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-interface Company {
-  id: number;
-  companyName: string;
-  cnpj: string;
-  email: string;
-  phone: string;
-  foundationDate: string;
-}
 
-const companies: Company[] = [
-  { id: 1, companyName: 'Empresa A', cnpj: '00.000.000/0001-00', email: 'empresaA@example.com', phone: '(11) 1234-5678', foundationDate: '2000-01-01' },
-  { id: 2, companyName: 'Empresa B', cnpj: '00.000.000/0001-01', email: 'empresaB@example.com', phone: '(21) 9876-5432', foundationDate: '2005-02-15' },
-  { id: 3, companyName: 'Empresa C', cnpj: '00.000.000/0001-02', email: 'empresaC@example.com', phone: '(31) 2345-6789', foundationDate: '2010-03-20' },
-  { id: 4, companyName: 'Empresa D', cnpj: '00.000.000/0001-03', email: 'empresaD@example.com', phone: '(41) 3456-7890', foundationDate: '2015-05-30' },
-];
+const columns: GridColDef[] = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'lastName', headerName: 'Nome da empresa', width: 200 },
+    { field: 'firstName', headerName: 'Marca da empresa', width: 250 },
+    {
+      field: 'cnpj',
+      headerName: 'CNPJ',
+      width: 150,
+    },
+    { field: 'segment', headerName: 'Setor', width: 150 },
+    {
+      field: 'fullCompanyName',
+      headerName: 'Full Company Name',
+      description: 'This column has a value getter and is not sortable.',
+      sortable: false,
+      width: 350,
+    },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 120,
+      sortable: false,
+      filterable: false,
+      disableColumnMenu: true,
+      renderCell: () => (
+        <div>
+          <IconButton aria-label="edit" size="small" color="primary">
+            <FontAwesomeIcon icon={faEdit} />
+          </IconButton>
+          <IconButton aria-label="delete" size="small" color="error">
+            <FontAwesomeIcon icon={faTrash} />
+          </IconButton>
+        </div>
+      ),
+    },
+  ];
 
-export function ListOfAllCompanies(){
-  const [searchTerm, setSearchTerm] = useState<string>('');
-  const [filteredCompanies, setFilteredCompanies] = useState<Company[]>(companies);
+const rows = [
+    { id: 1, lastName: 'Tech Solutions Inc.', firstName: 'Soluções Tecnológicas Ltda.', cnpj: '01.234.567/0001-89', segmento: 'Tecnologia' },
+    { id: 2, lastName: 'Alimentos Deliciosos S.A.', firstName: 'Indústria de Alimentos Saborosos S.A.', cnpj: '98.765.432/0002-10', segmento: 'Alimentos' },
+    { id: 3, lastName: 'Construções Master', firstName: 'Construtora Master Eireli', cnpj: '11.222.333/0003-45', segmento: 'Construção Civil' },
+    { id: 4, lastName: 'Moda Bella', firstName: 'Comércio de Vestuário Bella Ltda.', cnpj: '44.555.666/0004-78', segmento: 'Moda' },
+    { id: 5, lastName: 'Educação Inovadora', firstName: 'Instituto Educacional Inovar S/C Ltda.', cnpj: '77.888.999/0005-01', segmento: 'Educação' },
+    { id: 6, lastName: 'Saúde Bem-Estar', firstName: 'Clínica Médica Bem Estar S/S', cnpj: '22.333.444/0006-56', segmento: 'Saúde' },
+    { id: 7, lastName: 'Transportes Rápidos', firstName: 'Empresa de Logística Rápida Ltda.', cnpj: '55.666.777/0007-89', segmento: 'Transporte e Logística' },
+    { id: 8, lastName: 'Energia Sustentável', firstName: 'Geração de Energia Verde S.A.', cnpj: '88.999.000/0008-12', segmento: 'Energia' },
+    { id: 9, lastName: 'Consultoria Expert', firstName: 'Consultoria Empresarial Expert Ltda.', cnpj: '33.444.555/0009-23', segmento: 'Consultoria' },
+  ];
 
-  // Função para filtrar empresas com base no termo de busca
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const term = event.target.value.toLowerCase();
-    setSearchTerm(term);
-    setFilteredCompanies(
-      companies.filter(
-        (company) =>
-          company.companyName.toLowerCase().includes(term) ||
-          company.cnpj.includes(term) ||
-          company.email.toLowerCase().includes(term) ||
-          company.phone.includes(term)
-      )
-    );
-  };
+const paginationModel = { page: 0, pageSize: 5 };
 
+export default function DataCompaniesTable() {
   return (
-    <Paper sx={{ padding: 2 }}>
-      <TextField
-        variant="outlined"
-        label="Buscar Empresas"
-        fullWidth
-        value={searchTerm}
-        onChange={handleSearch}
-        // InputProps={{
-        //   startAdornment: <SearchIcon />,
-        // }}
-        sx={{ marginBottom: 2 }}
+    <Paper sx={{ height: 400, width: '100%' }}>
+        <h1>Todas as empresas</h1>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        initialState={{ pagination: { paginationModel } }}
+        pageSizeOptions={[5, 10]}
+        checkboxSelection
+        sx={{ border: 0 }}
       />
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Nome da Empresa</TableCell>
-              <TableCell>CNPJ</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Telefone</TableCell>
-              <TableCell>Data de Fundação</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filteredCompanies.map((company) => (
-              <TableRow key={company.id}>
-                <TableCell>{company.companyName}</TableCell>
-                <TableCell>{company.cnpj}</TableCell>
-                <TableCell>{company.email}</TableCell>
-                <TableCell>{company.phone}</TableCell>
-                <TableCell>{company.foundationDate}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
     </Paper>
   );
-};
+}
