@@ -1,40 +1,36 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { TextField, Button, Grid, Box, Typography, InputAdornment } from '@mui/material';
+import { postCompany } from '../../api/company';
+import { Company } from '../../types/company';
 
-// Definindo os tipos para os dados da empresa
-interface CompanyData {
-  companyName: string;
-  cnpj: string;
-  address: string;
-  phone: string;
-  email: string;
-  foundationDate: string;
-}
 
 export function CompanyRegisterForm(){
-  const [formData, setFormData] = useState<CompanyData>({
-    companyName: '',
-    cnpj: '',
+  const [formData, setFormData] = useState<Company>({
+    name_company: '',
+    cnpj_company: 0,
     address: '',
-    phone: '',
+    telephone: 0,
     email: '',
-    foundationDate: '',
+    foundation_date: '',
   });
 
-  // Função para lidar com as mudanças nos campos de input
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+  
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]:
+        name === 'foundation_date'
+          ? new Date(value)
+          : value,
     }));
   };
+  
 
-  // Função para lidar com o envio do formulário
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // Aqui você pode processar o envio do formulário, como uma requisição para uma API
     console.log('Company Registered:', formData);
+    await postCompany(formData);
   };
 
   return (
@@ -50,19 +46,19 @@ export function CompanyRegisterForm(){
               variant="outlined"
               fullWidth
               required
-              name="companyName"
-              value={formData.companyName}
+              name="name_company"
+              value={formData.name_company}
               onChange={handleChange}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
-              label="CNPJ"
+              label="cnpj_company"
               variant="outlined"
               fullWidth
               required
-              name="cnpj"
-              value={formData.cnpj}
+              name="cnpj_company"
+              value={formData.cnpj_company}
               onChange={handleChange}
               InputProps={{
                 startAdornment: <InputAdornment position="start">00.000.000/0000-00</InputAdornment>,
@@ -86,8 +82,8 @@ export function CompanyRegisterForm(){
               variant="outlined"
               fullWidth
               required
-              name="phone"
-              value={formData.phone}
+              name="telephone"
+              value={formData.telephone}
               onChange={handleChange}
             />
           </Grid>
@@ -109,9 +105,9 @@ export function CompanyRegisterForm(){
               variant="outlined"
               fullWidth
               required
-              name="foundationDate"
+              name="foundation_date"
               type="date"
-              value={formData.foundationDate}
+              value={formData.foundation_date}
               onChange={handleChange}
               InputLabelProps={{
                 shrink: true,
