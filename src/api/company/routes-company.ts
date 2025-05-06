@@ -1,2 +1,3 @@
-export const urlStrapi = 'http://localhost:1337/api/register-companies'; 
+export const urlStrapi = 'https://strapi-credenciamento.onrender.com/api/register-companies'; 
+// export const urlStrapi = 'http://localhost:1337/api/register-companies'; 
 export const token = '9a33ec7da865bc8ccccdd93364e11d6d83d8dc41585342ad27dcb8d3693b8ebcf8246dd09c36a62fb3db3585a87f37fb05c7038752ffeea2dd630c43bfbd19e542bc65cb7dfc6c1dc724c7164a2a570cf19673c8ad7d3a94b1c059eb01070ef48d62055764a60ab67dd086b7da51e38e241f5efd3890ff63cf10145af670f27e'
