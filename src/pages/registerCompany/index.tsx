@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { TextField, Button, Grid, Box, Typography, InputAdornment } from '@mui/material';
-import { postCompany } from '../../api/company';
+import { postCompany } from '../../api/company/company';
 import { Company } from '../../types/company';
 
 
@@ -19,18 +19,22 @@ export function CompanyRegisterForm(){
   
     setFormData((prevData) => ({
       ...prevData,
-      [name]:
-        name === 'foundation_date'
-          ? new Date(value)
-          : value,
+      [name]: value,
     }));
   };
   
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log('Company Registered:', formData);
-    await postCompany(formData);
+    
+    // Converte a string da data para Date apenas no envio
+    const dataToSend = {
+      ...formData,
+      foundation_date: formData.foundation_date ? new Date(formData.foundation_date) : null
+    };
+
+    console.log('Company Registered:', dataToSend);
+    await postCompany(dataToSend);
   };
 
   return (
@@ -100,7 +104,7 @@ export function CompanyRegisterForm(){
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField
+          <TextField
               label="Data de Fundação"
               variant="outlined"
               fullWidth
@@ -111,6 +115,9 @@ export function CompanyRegisterForm(){
               onChange={handleChange}
               InputLabelProps={{
                 shrink: true,
+              }}
+              inputProps={{
+                max: new Date().toISOString().split('T')[0] // Impede datas futuras
               }}
             />
           </Grid>
