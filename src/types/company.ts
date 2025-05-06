@@ -5,6 +5,6 @@ export interface Company {
     address: string;
     telephone: number;
     email: string;
-    foundation_date: Date | string;
+    foundation_date: Date | string | null;
   }
   
