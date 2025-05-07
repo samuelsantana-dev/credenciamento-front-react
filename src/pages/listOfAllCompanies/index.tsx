@@ -1,112 +1,124 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
-import { Button, IconButton } from '@mui/material';
-import { faTrash, faEdit  } from '@fortawesome/free-solid-svg-icons';
+import { Button, IconButton, Snackbar, Alert } from '@mui/material';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import React from 'react';
-import { getCompany } from '../../api/company/company';
+import { useEffect, useState } from 'react';
+import { deleteCompany, getCompany } from '../../api/company/company';
 import { Company } from '../../types/company';
 
 export default function DataCompaniesTable() {
-  const [companies, setCompanies] = React.useState<Company[]>([]);
-    const navigate = useNavigate();
-  
-  function handleNavigate(companyId: string | number, nameCompany: string | number){
-    console.log('teste')
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [successOpen, setSuccessOpen] = useState(false);
+  const [errorOpen, setErrorOpen] = useState(false);
+  const navigate = useNavigate();
+
+  function handleNavigate(companyId: string | number, nameCompany: string | number) {
     navigate(`/company/${companyId}/employees/${nameCompany}`);
   }
-  
+
+  async function handleDeleteCompany(id: number) {
+    try {
+      await deleteCompany(id);
+      setCompanies((prev) => prev.filter((company) => company.id !== id));
+      setSuccessOpen(true);
+    } catch (error) {
+      console.error('Erro ao deletar empresa:', error);
+      setErrorOpen(true);
+    }
+  }
+
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await getCompany();
         setCompanies(response.data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Erro ao buscar empresas:', error);
       }
     }
 
     fetchData();
-  },[]);
+  }, []);
+
   const columns: GridColDef[] = [
-      { field: 'id', headerName: 'ID', width: 70 },
-      { field: 'name_company', headerName: 'Nome da empresa', width: 200 },
-      { field: 'email', headerName: 'Email', width: 250 },
-      {
-        field: 'cnpj_company',
-        headerName: 'CNPJ',
-        width: 150,
-      },
-      {
-        field: 'telephone',
-        headerName: 'Numero',
-        width: 150,
-      },
-      { field: 'address', headerName: 'Endereço', width: 150 },
-      { field: 'foundation_date', headerName: 'Data de fundação', width: 150 },
-      {
-        field: 'fullCompanyName',
-        headerName: 'Full Company Name',
-        description: 'This column has a value getter and is not sortable.',
-        sortable: false,
-        width: 350,
-      },
-      {
-        field: 'actions',
-        headerName: 'Actions',
-        width: 120,
-        sortable: false,
-        filterable: false,
-        disableColumnMenu: true,
-        renderCell: () => {        
-         return ( <div>
-            <IconButton aria-label="edit" size="small" color="primary">
-              <FontAwesomeIcon icon={faEdit} />
-            </IconButton>
-            <IconButton aria-label="delete" size="small" color="error">
-              <FontAwesomeIcon icon={faTrash} />
-            </IconButton>
-            <Button onClick={() => handleNavigate(1, 'teste')}>
-              <IconButton 
-                aria-label="view" 
-                size="small" 
-              >
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'name_company', headerName: 'Nome da empresa', width: 200 },
+    { field: 'email', headerName: 'Email', width: 250 },
+    { field: 'cnpj_company', headerName: 'CNPJ', width: 150 },
+    { field: 'telephone', headerName: 'Número', width: 150 },
+    { field: 'address', headerName: 'Endereço', width: 150 },
+    { field: 'foundation_date', headerName: 'Data de fundação', width: 150 },
+    {
+      field: 'actions',
+      headerName: 'Ações',
+      width: 150,
+      sortable: false,
+      filterable: false,
+      disableColumnMenu: true,
+      renderCell: (params) => (
+        <div>
+          <IconButton aria-label="edit" size="small" color="primary">
+            <FontAwesomeIcon icon={faEdit} />
+          </IconButton>
+          <IconButton
+            aria-label="delete"
+            size="small"
+            color="error"
+            onClick={() => handleDeleteCompany(params.row.id)}
+          >
+            <FontAwesomeIcon icon={faTrash} />
+          </IconButton>
+          <Button onClick={() => handleNavigate(params.row.id, params.row.name_company)}>
+            <IconButton aria-label="view" size="small">
               Redirect
             </IconButton>
-            </Button>
-            
-          </div>)
-      },
-      },
-    ];
-  
-  // const rows = [
-  //     { id: 1, lastName: 'Tech Solutions Inc.', firstName: 'Soluções Tecnológicas Ltda.', cnpj: '01.234.567/0001-89', segmento: 'Tecnologia' },
-  //     { id: 2, lastName: 'Alimentos Deliciosos S.A.', firstName: 'Indústria de Alimentos Saborosos S.A.', cnpj: '98.765.432/0002-10', segmento: 'Alimentos' },
-  //     { id: 3, lastName: 'Construções Master', firstName: 'Construtora Master Eireli', cnpj: '11.222.333/0003-45', segmento: 'Construção Civil' },
-  //     { id: 4, lastName: 'Moda Bella', firstName: 'Comércio de Vestuário Bella Ltda.', cnpj: '44.555.666/0004-78', segmento: 'Moda' },
-  //     { id: 5, lastName: 'Educação Inovadora', firstName: 'Instituto Educacional Inovar S/C Ltda.', cnpj: '77.888.999/0005-01', segmento: 'Educação' },
-  //     { id: 6, lastName: 'Saúde Bem-Estar', firstName: 'Clínica Médica Bem Estar S/S', cnpj: '22.333.444/0006-56', segmento: 'Saúde' },
-  //     { id: 7, lastName: 'Transportes Rápidos', firstName: 'Empresa de Logística Rápida Ltda.', cnpj: '55.666.777/0007-89', segmento: 'Transporte e Logística' },
-  //     { id: 8, lastName: 'Energia Sustentável', firstName: 'Geração de Energia Verde S.A.', cnpj: '88.999.000/0008-12', segmento: 'Energia' },
-  //     { id: 9, lastName: 'Consultoria Expert', firstName: 'Consultoria Empresarial Expert Ltda.', cnpj: '33.444.555/0009-23', segmento: 'Consultoria' },
-  //   ];
-  
+          </Button>
+        </div>
+      ),
+    },
+  ];
+
   const paginationModel = { page: 0, pageSize: 5 };
-  
+
   return (
-    <Paper sx={{ height: 400, width: '100%' }}>
+    <>
+      <Paper sx={{ height: 420, width: '100%', p: 2 }}>
         <h1>Todas as empresas</h1>
-      <DataGrid
-        rows={companies}
-        columns={columns}
-        initialState={{ pagination: { paginationModel } }}
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
-        sx={{ border: 0 }}
-      />
-    </Paper>
+        <DataGrid
+          rows={companies}
+          columns={columns}
+          initialState={{ pagination: { paginationModel } }}
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
+          sx={{ border: 0 }}
+        />
+      </Paper>
+
+      {/* Snackbar de sucesso */}
+      <Snackbar
+        open={successOpen}
+        autoHideDuration={3000}
+        onClose={() => setSuccessOpen(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert onClose={() => setSuccessOpen(false)} severity="success" sx={{ width: '100%' }}>
+          Empresa deletada com sucesso!
+        </Alert>
+      </Snackbar>
+
+      {/* Snackbar de erro */}
+      <Snackbar
+        open={errorOpen}
+        autoHideDuration={3000}
+        onClose={() => setErrorOpen(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert onClose={() => setErrorOpen(false)} severity="error" sx={{ width: '100%' }}>
+          Ocorreu um erro ao deletar a empresa.
+        </Alert>
+      </Snackbar>
+    </>
   );
 }
