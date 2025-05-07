@@ -1,5 +1,5 @@
 import { Company } from "../../types/company";
-import { urlStrapi, token } from "./routes-company";
+import { urlStrapi } from "./routes-company";
 
 export interface ApiResponse<Company> {
     data: Company;
@@ -10,7 +10,7 @@ export interface ApiResponse<Company> {
     const response = await fetch(urlStrapi, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        // 'Authorization': token,
     },
     });
     
@@ -23,7 +23,7 @@ export interface ApiResponse<Company> {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+            // 'Authorization': token,
         },
         body: JSON.stringify({ data: companyData }),
     });
