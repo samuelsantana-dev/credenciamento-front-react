@@ -17,14 +17,13 @@ export default function DataCompaniesTable() {
   function handleNavigate(companyId: string | number, nameCompany: string | number) {
     navigate(`/company/${companyId}/employees/${nameCompany}`);
   }
-
   async function handleDeleteCompany(id: number) {
     try {
-      await deleteCompany(id);
-      setCompanies((prev) => prev.filter((company) => company.id !== id));
-      setSuccessOpen(true);
+        await deleteCompany(id);
+        setCompanies((prev) => prev.filter((company) => company.id !== id));
+        setSuccessOpen(true);
     } catch (error) {
-      console.error('Erro ao deletar empresa:', error);
+      console.error('Delete error:', error);
       setErrorOpen(true);
     }
   }
@@ -33,7 +32,8 @@ export default function DataCompaniesTable() {
     async function fetchData() {
       try {
         const response = await getCompany();
-        setCompanies(response.data);
+        console.log('Dados recebidos:', response);
+        setCompanies(response);
       } catch (error) {
         console.error('Erro ao buscar empresas:', error);
       }
@@ -66,7 +66,7 @@ export default function DataCompaniesTable() {
             aria-label="delete"
             size="small"
             color="error"
-            onClick={() => handleDeleteCompany(params.row.id)}
+            onClick={() => handleDeleteCompany(params.row.documentId)}
           >
             <FontAwesomeIcon icon={faTrash} />
           </IconButton>
